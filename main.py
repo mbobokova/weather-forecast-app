@@ -29,11 +29,13 @@ try:
         if option == "Sky":
             # Create sky images
             sky_condition = [dict['weather'][0]['main'] for dict in filtered_data]
-            st.columns(4)
-            for image, day in zip(sky_condition, date):
-                image = image.lower()
-                st.image(f"images/{image}.png", width=115)
-                st.write(day)
+
+            cols = st.columns(4)
+            for i, (condition, day) in enumerate(zip(sky_condition, date)):
+                image = condition.lower()
+                cols[i % 4].image(f"images/{image}.png", width=115)
+                cols[i % 4].write(day)
+
 except (KeyError, IndexError, TypeError) as e:
     st.info('Not existing place')
 
